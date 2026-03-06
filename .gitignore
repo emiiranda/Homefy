@@ -1,0 +1,32 @@
+# ── Ambiente ──────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── .NET / C# ─────────────────────────────────────────────────
+**/bin/
+**/obj/
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+.vs/
+*.log
+*.nupkg
+*.snupkg
+**/TestResults/
+
+# ── Node / React ──────────────────────────────────────────────
+**/node_modules/
+**/dist/
+**/.vite/
+**/coverage/
+*.local
+
+
+# ── IDEs ──────────────────────────────────────────────────────
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
