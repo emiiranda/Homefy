@@ -22,7 +22,6 @@ public sealed class UpdatePersonUseCase(IPersonRepository personRepository)
 
         return new UpdatePersonResponse
         {
-            Id = person.Id,
             Name = person.Name,
             Age = person.Age
         };
