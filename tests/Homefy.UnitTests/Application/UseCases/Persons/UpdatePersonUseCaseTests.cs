@@ -7,6 +7,8 @@ namespace Homefy.UnitTests.Application.UseCases.Persons;
 
 public sealed class UpdatePersonUseCaseTests
 {
+    private static CancellationToken CancellationToken => TestContext.Current.CancellationToken;
+
     [Fact]
     public void Constructor_ShouldThrowArgumentNullException_WhenRepositoryIsNull()
     {
@@ -22,7 +24,7 @@ public sealed class UpdatePersonUseCaseTests
         var repository = new FakePersonRepository();
         var useCase = new UpdatePersonUseCase(repository);
 
-        Task<UpdatePersonResponse> act() => useCase.ExecuteAsync(null!, TestContext.Current.CancellationToken);
+        Task<UpdatePersonResponse> act() => useCase.ExecuteAsync(null!, CancellationToken);
 
         var exception = await Assert.ThrowsAsync<ArgumentNullException>((Func<Task<UpdatePersonResponse>>)act);
         Assert.Equal("request", exception.ParamName);
@@ -42,7 +44,7 @@ public sealed class UpdatePersonUseCaseTests
             Age = 35
         };
 
-        Task<UpdatePersonResponse> act() => useCase.ExecuteAsync(request, TestContext.Current.CancellationToken);
+        Task<UpdatePersonResponse> act() => useCase.ExecuteAsync(request, CancellationToken);
 
         await Assert.ThrowsAsync<KeyNotFoundException>((Func<Task<UpdatePersonResponse>>)act);
         Assert.Equal(1, repository.GetByIdAsyncCallCount);
@@ -64,7 +66,7 @@ public sealed class UpdatePersonUseCaseTests
             Age = 30
         };
 
-        Task<UpdatePersonResponse> act() => useCase.ExecuteAsync(request, TestContext.Current.CancellationToken);
+        Task<UpdatePersonResponse> act() => useCase.ExecuteAsync(request, CancellationToken);
 
         await Assert.ThrowsAsync<DomainException>((Func<Task<UpdatePersonResponse>>)act);
         Assert.Equal(1, repository.GetByIdAsyncCallCount);
@@ -74,6 +76,8 @@ public sealed class UpdatePersonUseCaseTests
     [Fact]
     public async Task ExecuteAsync_ShouldUpdatePersonAndReturnResponse()
     {
+        var expectedId = PersonTestData.Person1Id;
+
         var repository = new FakePersonRepository();
         repository.SetPersons(PersonTestData.CreatePersons());
 
@@ -81,15 +85,15 @@ public sealed class UpdatePersonUseCaseTests
 
         var request = new UpdatePersonRequest
         {
-            Id = PersonTestData.Person1Id,
+            Id = expectedId,
             Name = "Eduardo Updated",
             Age = 31
         };
 
-        var response = await useCase.ExecuteAsync(request, TestContext.Current.CancellationToken);
+        var response = await useCase.ExecuteAsync(request, CancellationToken);
 
         Assert.NotNull(response);
-        Assert.Equal(PersonTestData.Person1Id, response.Id);
+        Assert.Equal(expectedId, repository.UpdatedPerson!.Id);
         Assert.Equal("Eduardo Updated", response.Name);
         Assert.Equal(31, response.Age);
 
