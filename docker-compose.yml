@@ -1,0 +1,43 @@
+services:
+  homefy-postgres:
+    image: postgres:17
+    container_name: homefy-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: homefy_db
+      POSTGRES_USER: homefy_sa
+      POSTGRES_PASSWORD: abc123
+    ports:
+      - "5435:5432"
+    volumes:
+      - homefy-postgres-data:/var/lib/postgresql/data
+
+  homefy-pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: homefy-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "homefy@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin123"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5055:80"
+    depends_on:
+      - homefy-postgres
+
+  homefy-api:
+    build:
+      context: .
+      dockerfile: src/Homefy.Api/Dockerfile
+    container_name: homefy-api
+    restart: unless-stopped
+    depends_on:
+      - homefy-postgres
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "Host=homefy-postgres;Port=5432;Database=homefy_db;Username=homefy_sa;Password=abc123"
+    ports:
+      - "5077:8080"
+
+volumes:
+  homefy-postgres-data:
