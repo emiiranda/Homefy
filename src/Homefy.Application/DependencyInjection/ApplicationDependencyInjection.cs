@@ -15,10 +15,12 @@ public static class ApplicationDependencyInjection
         services.AddScoped<GetPersonByIdUseCase>();
         services.AddScoped<UpdatePersonUseCase>();
         services.AddScoped<DeletePersonUseCase>();
+        services.AddScoped<GetPersonTotalsUseCase>();
 
         // Categories
         services.AddScoped<CreateCategoryUseCase>();
         services.AddScoped<GetAllCategoriesUseCase>();
+        services.AddScoped<GetCategoryTotalsUseCase>();
 
         // Transactions
         services.AddScoped<CreateTransactionUseCase>();
