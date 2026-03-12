@@ -1,0 +1,15 @@
+﻿using Homefy.Domain.Enums;
+
+namespace Homefy.Application.DTOs.Transaction;
+
+public sealed class GetAllTransactionsResponse
+{
+    public Guid Id { get; init; }
+    public string Description { get; init; } = string.Empty;
+    public decimal Amount { get; init; }
+    public TransactionType Type { get; init; }
+    public Guid CategoryId { get; init; }
+    public string CategoryDescription { get; init; } = string.Empty;
+    public Guid PersonId { get; init; }
+    public string PersonName { get; init; } = string.Empty;
+}

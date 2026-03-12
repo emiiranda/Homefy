@@ -1,5 +1,6 @@
 ﻿using Homefy.Application.UseCases.Categories;
 using Homefy.Application.UseCases.Persons;
+using Homefy.Application.UseCases.Transactions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Homefy.Application.DependencyInjection;
@@ -18,6 +19,10 @@ public static class ApplicationDependencyInjection
         // Categories
         services.AddScoped<CreateCategoryUseCase>();
         services.AddScoped<GetAllCategoriesUseCase>();
+
+        // Transactions
+        services.AddScoped<CreateTransactionUseCase>();
+        services.AddScoped<GetAllTransactionsUseCase>();
 
         return services;
     }
