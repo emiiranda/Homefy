@@ -20,6 +20,7 @@ public static class InfrastructureDependencyInjection
             options.UseNpgsql(connectionString));
 
         services.AddScoped<IPersonRepository, PersonRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         return services;
     }
