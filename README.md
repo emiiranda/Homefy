@@ -51,6 +51,23 @@ execute o comando abaixo num terminal, à partir do diretório do projeto Homefy
 dotnet ef database update
 ```
 
+### Execução dos testes 
+Para executar os testes, pode-se utilizar o comando abaixo. A aplicação dispõe de testes unitários para todas as entidades,
+e testes específicos para Person nas camadas de Domínio, Aplicação e Infraestrutura.
+
+```bash
+dotnet test
+```
+
+### Build inicial
+O build inicial pode ser feito através do comando abaixo. O docker-compose.yml instala as dependencias 
+e compila a so
+subirá o container contendo pgAdmin, PostgreSQL, API Backend (ASP.NET Web Api) e Frontend (React)
+
+```bash
+docker compose up --build
+```
+
 ### Rotas API
 
 | Página | Rota | Operações |
@@ -62,7 +79,7 @@ dotnet ef database update
 | Totais por Categoria | `/totals/categories` | Somente leitura |
 
 
-### Acesse a aplicação
+### Acessando a aplicação
 Frontend	http://localhost:3000
 API (Scalar)	http://localhost:5077/scalar
 pgAdmin	http://localhost:5055
