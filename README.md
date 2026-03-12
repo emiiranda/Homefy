@@ -61,8 +61,7 @@ dotnet test
 
 ### Build inicial
 O build inicial pode ser feito através do comando abaixo. O docker-compose.yml instala as dependencias 
-e compila a so
-subirá o container contendo pgAdmin, PostgreSQL, API Backend (ASP.NET Web Api) e Frontend (React)
+e compila a solução, iniciando o container Docker com pgAdmin, PostgreSQL, API Backend (ASP.NET Web Api) e Frontend (React)
 
 ```bash
 docker compose up --build
@@ -85,4 +84,5 @@ API (Scalar)	http://localhost:5077/scalar
 pgAdmin	http://localhost:5055
 
 As credenciais de teste podem ser encontradas no arquivo docker-compose.yml e alteradas conforme a necessidade na string de conexão.
+
 
