@@ -39,5 +39,16 @@ services:
     ports:
       - "5077:8080"
 
+  homefy-web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: homefy-web
+    restart: unless-stopped
+    depends_on:
+      - homefy-api
+    ports:
+      - "3000:80"
+
 volumes:
   homefy-postgres-data:
