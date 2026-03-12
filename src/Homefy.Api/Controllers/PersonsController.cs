@@ -11,13 +11,15 @@ public sealed class PersonsController(
     GetAllPersonsUseCase getAllPersonsUseCase,
     GetPersonByIdUseCase getPersonByIdUseCase,
     UpdatePersonUseCase updatePersonUseCase,
-    DeletePersonUseCase deletePersonUseCase) : ControllerBase
+    DeletePersonUseCase deletePersonUseCase,
+    GetPersonTotalsUseCase getPersonTotalsUseCase) : ControllerBase
 {
     private readonly CreatePersonUseCase _createPersonUseCase = createPersonUseCase;
     private readonly GetAllPersonsUseCase _getAllPersonsUseCase = getAllPersonsUseCase;
     private readonly GetPersonByIdUseCase _getPersonByIdUseCase = getPersonByIdUseCase;
     private readonly UpdatePersonUseCase _updatePersonUseCase = updatePersonUseCase;
     private readonly DeletePersonUseCase _deletePersonUseCase = deletePersonUseCase;
+    private readonly GetPersonTotalsUseCase _getPersonTotalsUseCase = getPersonTotalsUseCase;
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -99,5 +101,13 @@ public sealed class PersonsController(
         {
             return NotFound(new { message = ex.Message });
         }
+    }
+
+    [HttpGet("totals")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetTotals(CancellationToken cancellationToken)
+    {
+        var response = await _getPersonTotalsUseCase.ExecuteAsync(cancellationToken);
+        return Ok(response);
     }
 }

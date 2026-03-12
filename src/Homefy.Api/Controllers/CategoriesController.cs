@@ -8,10 +8,12 @@ namespace Homefy.Api.Controllers;
 [Route("api/[controller]")]
 public sealed class CategoriesController(
     CreateCategoryUseCase createCategoryUseCase,
-    GetAllCategoriesUseCase getAllCategoriesUseCase) : ControllerBase
+    GetAllCategoriesUseCase getAllCategoriesUseCase,
+    GetCategoryTotalsUseCase getCategoryTotalsUseCase) : ControllerBase
 {
     private readonly CreateCategoryUseCase _createCategoryUseCase = createCategoryUseCase;
     private readonly GetAllCategoriesUseCase _getAllCategoriesUseCase = getAllCategoriesUseCase;
+    private readonly GetCategoryTotalsUseCase _getCategoryTotalsUseCase = getCategoryTotalsUseCase;
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -34,5 +36,13 @@ public sealed class CategoriesController(
             nameof(GetAll),
             new { id = response.Id },
             response);
+    }
+
+    [HttpGet("totals")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetTotals(CancellationToken cancellationToken)
+    {
+        var response = await _getCategoryTotalsUseCase.ExecuteAsync(cancellationToken);
+        return Ok(response);
     }
 }
