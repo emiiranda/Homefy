@@ -18,6 +18,12 @@ public sealed class CategoryRepository(HomefyDbContext context) : ICategoryRepos
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Categories
+            .FirstOrDefaultAsync(category => category.Id == id, cancellationToken);
+    }
+
     public async Task AddAsync(Category category, CancellationToken cancellationToken = default)
     {
         await _context.Categories.AddAsync(category, cancellationToken);

@@ -4,7 +4,7 @@ using Homefy.Domain.Exceptions;
 
 namespace Homefy.Domain.Entities;
 
-public class Transaction : EntityBase
+public sealed class Transaction : EntityBase
 {
     public const int MaxDescriptionLength = 400;
 
@@ -13,6 +13,9 @@ public class Transaction : EntityBase
     public TransactionType Type { get; private set; }
     public Guid CategoryId { get; private set; }
     public Guid PersonId { get; private set; }
+
+    public Category Category { get; private set; } = null!;
+    public Person Person { get; private set; } = null!;
 
     private Transaction()
     {
@@ -32,22 +35,6 @@ public class Transaction : EntityBase
         SetPersonId(personId);
     }
 
-    private void SetAmount(decimal amount)
-    {
-        if (amount <= 0)
-            throw new DomainException("Transaction amount must be greater than zero.");
-
-        Amount = amount;
-    }
-
-    private void SetCategoryId(Guid categoryId)
-    {
-        if (categoryId == Guid.Empty)
-            throw new DomainException("Category identifier is required.");
-
-        CategoryId = categoryId;
-    }
-
     private void SetDescription(string description)
     {
         if (string.IsNullOrWhiteSpace(description))
@@ -61,12 +48,12 @@ public class Transaction : EntityBase
         Description = description;
     }
 
-    private void SetPersonId(Guid personId)
+    private void SetAmount(decimal amount)
     {
-        if (personId == Guid.Empty)
-            throw new DomainException("Person identifier is required.");
+        if (amount <= 0)
+            throw new DomainException("Transaction amount must be greater than zero.");
 
-        PersonId = personId;
+        Amount = amount;
     }
 
     private void SetType(TransactionType type)
@@ -75,5 +62,21 @@ public class Transaction : EntityBase
             throw new DomainException("Invalid transaction type.");
 
         Type = type;
+    }
+
+    private void SetCategoryId(Guid categoryId)
+    {
+        if (categoryId == Guid.Empty)
+            throw new DomainException("Category identifier is required.");
+
+        CategoryId = categoryId;
+    }
+
+    private void SetPersonId(Guid personId)
+    {
+        if (personId == Guid.Empty)
+            throw new DomainException("Person identifier is required.");
+
+        PersonId = personId;
     }
 }
